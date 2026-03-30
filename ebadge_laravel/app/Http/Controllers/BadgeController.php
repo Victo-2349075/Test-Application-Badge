@@ -76,6 +76,7 @@ class BadgeController extends Controller
         $badge->title = $request->title;
         $badge->description = $request->description;
         $badge->teacher_id = $request->user()->id;
+        $badge->imagePath = $request->imagePath;
 
         // insertion de l'image dans le dossier public si un fichier a été envoyé
         if ($request->hasFile('image')) {
@@ -93,13 +94,20 @@ class BadgeController extends Controller
             $badge->category = $request->category_name;
         }
 
-        // Notification badge_created après l'enregistrement d'un nouveau badges
-        // Zacharie Nolet - 2026-03-11
-        Notification::create([
-            'type'     => 'badge_created',
-            'user_id'  => $request->user()->id,
-            'badge_id' => $badge->id,
-        ]);
+        // Notification badge_created après l'enregistrement d'un nouveau badge.
+        // Ne doit jamais bloquer la création du badge si le module de notification est indisponible.
+        try {
+            Notification::create([
+                'type'     => 'badge_created',
+                'user_id'  => $request->user()->id,
+                'badge_id' => $badge->id,
+            ]);
+        } catch (\Throwable $exception) {
+            Log::warning('Impossible de créer la notification badge_created.', [
+                'badge_id' => $badge->id,
+                'error' => $exception->getMessage(),
+            ]);
+        }
 
         return response()->json($badge);
     }
@@ -169,17 +177,6 @@ class BadgeController extends Controller
      */
     public function updateImage(BadgeUpdateImageRequest $request)
     {
-        //------ Gestion notification --------
-        $user->badges()->attach($badge->id);
-
-        Notification::create([
-            'type'     => 'badge_earned',
-            'user_id'  => $user->id,
-            'badge_id' => $badge->id,
-        ]);
-
-        app(RankingService::class)->checkAndNotify();
-
         //----- Gerer l'image -----
         $imagePath = null;
         $oldBadge = Badge::find($request->id);
