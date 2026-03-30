@@ -76,6 +76,7 @@ class BadgeController extends Controller
         $badge->title = $request->title;
         $badge->description = $request->description;
         $badge->teacher_id = $request->user()->id;
+        $badge->imagePath = $request->imagePath;
 
         // insertion de l'image dans le dossier public si un fichier a été envoyé
         if ($request->hasFile('image')) {
@@ -169,17 +170,6 @@ class BadgeController extends Controller
      */
     public function updateImage(BadgeUpdateImageRequest $request)
     {
-        //------ Gestion notification --------
-        $user->badges()->attach($badge->id);
-
-        Notification::create([
-            'type'     => 'badge_earned',
-            'user_id'  => $user->id,
-            'badge_id' => $badge->id,
-        ]);
-
-        app(RankingService::class)->checkAndNotify();
-
         //----- Gerer l'image -----
         $imagePath = null;
         $oldBadge = Badge::find($request->id);
