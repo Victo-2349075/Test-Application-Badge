@@ -78,8 +78,13 @@ const BadgeComponent = ({ badge, showDetails }) => {
           <div className="inner">
             <img 
               src={badgeImageURL} 
-              alt={badge.title} 
+              alt=""
+              aria-label={badge.title || "Badge"}
               className='badgeIcon'
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = getResource("badge.png");
+              }}
             />
           </div>
           <div className="glossy"></div>
