@@ -1,14 +1,10 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button, Avatar, Slide, Dialog, Switch } from "@mui/material";
+import { Button, Avatar, Dialog, Switch } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 import BadgeDeleteAction from "./Popups/BadgeDeletePopup/BadgeDeletePopup";
 import BadgeUpdateForm from "../Forms/Badge/BadgeUpdateForm";
 import Api, { getResource } from "../../utils/Api";
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 class BadgeGrid extends React.Component {
   constructor(props) {
@@ -64,7 +60,7 @@ class BadgeGrid extends React.Component {
           renderCell: (rows) => {
             return (
               <Switch
-                checked={rows.row.activated == 1}
+                checked={rows.row.activated === 1}
                 onChange={() =>
                   this.handleChangeActivated(rows.row.id, rows.row.activated)
                 }
@@ -144,12 +140,12 @@ class BadgeGrid extends React.Component {
    * donne une valeur a this.state.row lorsque props est chargé
    * ce code a été géner en partie par chatGPT https://chatgpt.com
    */
-  componentDidUpdate(prevState) {
+  componentDidUpdate(prevProps) {
     const newRows = this.props.rows;
 
   if (
-    newRows.length !== prevState.rows.length ||
-    !this.state.rows.every((row, i) => row.id === newRows[i]?.id)
+    newRows.length !== prevProps.rows.length ||
+    JSON.stringify(newRows) !== JSON.stringify(prevProps.rows)
   ) {
     this.setState({ rows: newRows.map((row) => ({ ...row })) });
   }
