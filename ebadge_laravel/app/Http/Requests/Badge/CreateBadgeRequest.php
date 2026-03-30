@@ -7,6 +7,16 @@ use Illuminate\Foundation\Http\FormRequest;
 class CreateBadgeRequest extends FormRequest
 {
     /**
+     * Autorise la requête pour les utilisateurs déjà filtrés par middleware de route.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
      * Définit les règles de validation pour la requête
      *
      * @return array
