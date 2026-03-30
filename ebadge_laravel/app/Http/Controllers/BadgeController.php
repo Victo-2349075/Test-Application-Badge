@@ -94,13 +94,20 @@ class BadgeController extends Controller
             $badge->category = $request->category_name;
         }
 
-        // Notification badge_created après l'enregistrement d'un nouveau badges
-        // Zacharie Nolet - 2026-03-11
-        Notification::create([
-            'type'     => 'badge_created',
-            'user_id'  => $request->user()->id,
-            'badge_id' => $badge->id,
-        ]);
+        // Notification badge_created après l'enregistrement d'un nouveau badge.
+        // Ne doit jamais bloquer la création du badge si le module de notification est indisponible.
+        try {
+            Notification::create([
+                'type'     => 'badge_created',
+                'user_id'  => $request->user()->id,
+                'badge_id' => $badge->id,
+            ]);
+        } catch (\Throwable $exception) {
+            Log::warning('Impossible de créer la notification badge_created.', [
+                'badge_id' => $badge->id,
+                'error' => $exception->getMessage(),
+            ]);
+        }
 
         return response()->json($badge);
     }

@@ -35,9 +35,9 @@ const BadgeComponent = ({ badge }) => {
     let categoryColor;
     
     if (badge.category === null || badge.category === undefined) {
-      categoryColor = badge.category_color || "#C0C0C0";
+      categoryColor = badge.category?.color || badge.category_color || badge.categoryColor || "#C0C0C0";
     } else {
-      categoryColor = badge.category?.color || badge.category_color || "#C0C0C0";
+      categoryColor = badge.category?.color || badge.category_color || badge.categoryColor || "#C0C0C0";
     }
 
     // For debugging
