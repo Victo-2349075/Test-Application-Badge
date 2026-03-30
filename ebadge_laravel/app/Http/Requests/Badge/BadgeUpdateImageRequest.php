@@ -11,6 +11,16 @@ use Illuminate\Foundation\Http\FormRequest;
 class BadgeUpdateImageRequest extends FormRequest
 {
     /**
+     * Autorise la requête pour les utilisateurs déjà filtrés par middleware de route.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
      * Définit les règles de validation pour la requête
      *
      * @return array
@@ -21,8 +31,8 @@ class BadgeUpdateImageRequest extends FormRequest
             'id' => 'required|exists:badge,id',
             'title' => 'required|string|max:45',
             'description' => 'required|string|max:255',
-            'imagePath' => 'nullable|max:2048',
-            'image' => 'nullable|image:png,jpg',
+            'imagePath' => 'nullable|string|max:2048',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg',
             'category_id' => 'nullable',
             'category_name' => 'nullable|string'
         ];

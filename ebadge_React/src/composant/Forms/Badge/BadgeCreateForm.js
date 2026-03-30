@@ -158,13 +158,12 @@ export default function BadgeCreateForm({ handleClose, addBadge, errorBadge }) {
             })
                 .then((response) => {
                     addBadge(response.data);
+                    setBadge(badgeDummy);
+                    handleClose();
                 })
                 .catch((_) => {
                     errorBadge('Erreur lors de la création du badge');
                 });
-
-            setBadge(badgeDummy);
-            handleClose();
         }
     };
 
@@ -212,7 +211,7 @@ export default function BadgeCreateForm({ handleClose, addBadge, errorBadge }) {
                     <h1 className="badge-create-form-title">Création d'un badge</h1>
 
                     <div className="badge-create-form-card">
-                <form className='create-badge'>
+                <form className='create-badge' onSubmit={handleSubmit}>
                     <TextField
                         id="title"
                         name="title"
@@ -343,8 +342,8 @@ export default function BadgeCreateForm({ handleClose, addBadge, errorBadge }) {
                     </Dialog>
 
                     <div className="badge-create-form-button-submit">
-                        <Button
-                            onClick={handleSubmit}
+                            <Button
+                            type="submit"
                             variant="contained"
                             className="badge-create-primary-action"
                             // Désactive l'animation de clic (ripple) demandée sur le bouton CRÉER.
@@ -355,6 +354,7 @@ export default function BadgeCreateForm({ handleClose, addBadge, errorBadge }) {
                         </Button>
                         <Button
                             variant="outlined"
+                            type="button"
                             onClick={() => {
                                 setBadge(badgeDummy);
                                 handleClose();
