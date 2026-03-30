@@ -1,0 +1,36 @@
+.image-drop-zone-container {
+    width: 100%;
+    margin-top: 16px;
+}
+
+.image-drop-zone {
+    border: 2px dashed #90caf9;
+    border-radius: 8px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: background-color 0.2s, border-color 0.2s;
+    background-color: #f9f9f9;
+    user-select: none;
+}
+
+.image-drop-zone:hover,
+.image-drop-zone--active {
+    background-color: #e3f2fd;
+    border-color: #1976d2;
+}
+
+.image-drop-zone-hint {
+    font-size: 0.75rem;
+    color: #757575;
+}
+
+.image-drop-zone-error {
+    color: #d32f2f;
+    font-size: 0.8rem;
+    margin-top: 6px;
+    margin-bottom: 0;
+}

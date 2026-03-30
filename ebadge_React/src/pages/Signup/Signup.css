@@ -1,0 +1,55 @@
+.signup{
+    height: 100%;
+}
+
+.signup-container {
+    background-color: #3949B5;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    min-height: 100%;
+   
+}
+
+.signup-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 900px;
+    background: white;
+
+}
+
+.signup-right-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 60%;
+
+}
+
+.signup-background {
+    width: 100%;
+
+}
+.titre-creer-compte {
+    font-size: 5vh;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+form.signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+
+}
+
+.hidden-div {
+    margin-top: -15px;
+}

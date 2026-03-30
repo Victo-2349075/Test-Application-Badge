@@ -1,0 +1,731 @@
+/*3949b5 / FAC710*/
+
+/* ─── Base ─── */
+.background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  margin-top: 0 auto;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.profile-background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  width: 100%;
+  min-height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 60px;
+  position: relative;
+}
+
+.main {
+  height: 100%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+/* ─── Ancienne carte profil (conservée) ─── */
+.profil {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: left;
+  align-items: left;
+  margin: 50px;
+  font-size: 24px;
+  font-family: 'Barlow', sans-serif;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 25px;
+  border-radius: 10px;
+  backdrop-filter: blur(15px);
+  box-shadow:
+    rgba(77, 77, 77, 0.1) 0px 19px 20px,
+    rgba(66, 66, 66, 0.1) 0px -12px 30px,
+    rgba(72, 71, 71, 0.1) 0px 4px 6px,
+    rgba(63, 63, 63, 0.1) 0px 12px 13px,
+    rgba(62, 62, 62, 0.1) 0px -3px 5px;
+}
+
+#privacyMessage {
+  text-align: left;
+}
+
+/* ─── Nouvelle carte profil ─── */
+.profile-card {
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
+  box-shadow:
+    rgba(77, 77, 77, 0.1) 0px 19px 20px,
+    rgba(66, 66, 66, 0.1) 0px -12px 30px,
+    rgba(72, 71, 71, 0.1) 0px 4px 6px,
+    rgba(63, 63, 63, 0.1) 0px 12px 13px,
+    rgba(62, 62, 62, 0.1) 0px -3px 5px;
+  border-radius: 10px;
+  font-family: 'Barlow', sans-serif;
+  width: 100%;
+  max-width: 640px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 50px auto 0;
+}
+
+/* ─── Header : avatar + infos ─── */
+.profile-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 28px;
+}
+
+/* ─── Avatar ─── */
+.avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: solid 5px black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.2s;
+}
+
+.avatar-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.avatar-wrapper:hover .avatar-overlay {
+  opacity: 1;
+}
+
+.avatar-edit-icon {
+  color: #fff !important;
+}
+
+/* ─── Nom + citation ─── */
+.profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'Barlow', sans-serif;
+}
+
+.profile-name {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.citation-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: #555;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.citation-display:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.citation-edit-icon {
+  opacity: 0;
+  font-size: 14px !important;
+  color: #888;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+
+.citation-display:hover .citation-edit-icon {
+  opacity: 1;
+}
+
+.citation-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.citation-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ─── Badges épinglés ─── */
+.pinned-badges-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  width: 100%;
+}
+
+.pinned-badges-label {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #888;
+  font-family: 'Barlow', sans-serif;
+  text-align: center;
+}
+
+.pinned-badges-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.badge-slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 120px;
+}
+
+.badge-avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.badge-avatar {
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.45),
+    0 6px 5px 0 rgba(0, 0, 0, 0.45);
+  transition: transform 0.2s ease;
+}
+
+.badge-avatar-wrapper:hover .badge-avatar {
+  transform: scale(1.05);
+}
+
+/* Tooltip au survol */
+.badge-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #3949b5;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 14px;
+  width: 175px;
+  text-align: center;
+  font-size: 12px;
+  font-family: 'Barlow', sans-serif;
+  box-shadow: 4px 8px rgb(93, 93, 93);
+  border: solid 1px black;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.badge-tooltip strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.badge-tooltip p {
+  margin: 0;
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+/* Petite flèche en bas du tooltip */
+.badge-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #3949b5;
+}
+
+.badge-avatar-wrapper:hover .badge-tooltip {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+.badge-empty {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px dashed #bbb;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.badge-title {
+  font-size: 0.8rem;
+  color: #555;
+  text-align: center;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Barlow', sans-serif;
+}
+
+/* Bouton "+" — même style que .teacher-circle existant */
+.badge-add-btn {
+  position: absolute;
+  top: 68px;
+  right: 4px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: #3949b5;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  border: 2px solid white;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.15s,
+    background-color 0.2s;
+  padding: 0;
+}
+
+.badge-add-btn:hover {
+  transform: scale(1.1);
+  background-color: #1565c0;
+}
+
+.badge-add-btn svg {
+  font-size: 16px !important;
+}
+
+/* ─── Pied de carte : bouton privé ─── */
+.profile-footer {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.privacy-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1.5px solid currentColor;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: 'Barlow', sans-serif;
+  transition: background 0.2s;
+}
+
+.privacy-btn--public {
+  color: #555;
+  border-color: #bbb;
+}
+
+.privacy-btn--public:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.privacy-btn--private {
+  color: #c0392b;
+  border-color: #c0392b;
+}
+
+.privacy-btn--private:hover {
+  background: rgba(192, 57, 43, 0.07);
+}
+
+/* ─── Bouton modifier l'arrière-plan ─── */
+.edit-background-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.75);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s;
+  z-index: 10;
+}
+
+.edit-background-btn:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* ─── Ancien avatar (conservé) ─── */
+.avatar {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  border: solid 5px black;
+  line-height: 200px;
+}
+
+.imageProfile {
+  position: relative;
+}
+
+.editImage {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  margin-left: 170px;
+  margin-top: -70px;
+  border-radius: 50%;
+  background-color: #fff;
+  padding: 5px;
+  cursor: pointer;
+  border: solid 2px black;
+}
+
+.editImage:hover {
+  filter: brightness(85%);
+}
+
+.imageInput {
+  display: none;
+}
+
+/* ─── Infos utilisateur (ancien layout, conservé) ─── */
+.infosUser {
+  justify-content: center;
+  align-items: center;
+  padding-left: 50px;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  vertical-align: middle;
+  cursor: pointer;
+  accent-color: #3949b5;
+}
+
+.backgroundButton {
+  margin-top: 25px !important;
+}
+
+.badgeButton {
+  margin-top: 25px !important;
+}
+
+.infosLevel {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: left;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 40px;
+  background-color: #ddd;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.progressLevel {
+  min-width: 180px;
+  text-align: center;
+}
+
+.progressBarFill {
+  height: 100%;
+  background-color: #3949b5;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 40px;
+  color: white;
+}
+
+/* ─── BadgeList (conservé intégralement) ─── */
+.BadgeArray {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 50px auto;
+  width: 100%;
+  max-width: 640px;
+  backdrop-filter: blur(15px);
+  box-shadow:
+    rgba(77, 77, 77, 0.1) 0px 19px 20px,
+    rgba(66, 66, 66, 0.1) 0px -12px 30px,
+    rgba(72, 71, 71, 0.1) 0px 4px 6px,
+    rgba(63, 63, 63, 0.1) 0px 12px 13px,
+    rgba(62, 62, 62, 0.1) 0px -3px 5px;
+  gap: 40px;
+}
+
+.badgeIcon {
+  transition: ease-in-out 0.25s;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.45),
+    0 6px 5px 0 rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+.Badge {
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.badge-wrapper {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+
+.teacher-circle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #3949b5;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  border: 2px solid white;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+.teacher-circle:hover {
+  transform: scale(1.1);
+  background-color: #1565c0;
+}
+
+.badgeIcon:hover + .hideDisplay,
+.teacher-circle:hover + .hideDisplay,
+.badge-wrapper:hover + .hideDisplay {
+  display: block;
+  animation: fadeIn 0.35s;
+  z-index: 10;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hideDisplay {
+  display: none;
+  position: fixed;
+  text-align: center;
+  font-size: 12px;
+  margin-left: 10px;
+  margin-top: 275px;
+  z-index: -1000;
+  background-color: #3949b5;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 4px 8px rgb(93, 93, 93);
+  border: solid 1px black;
+  width: 175px;
+}
+
+/* ─── Dialog badges ─── */
+.badge-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 340px;
+}
+
+.badge-selector {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+}
+
+.listFavorite {
+  min-height: 250px;
+}
+
+/* ─── Utilitaires ─── */
+.hiddenAlert {
+  margin-top: 15px;
+  display: none;
+}
+
+.deleteButton {
+  background-color: #ff3333 !important;
+}
+
+.rowButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.textBadge {
+  font-size: 14px;
+}
+
+.mt-2 {
+  margin-top: 10px;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+/* ─── Responsive ─── */
+@media screen and (max-width: 600px) {
+  .profil {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 50px;
+    font-size: 24px;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  .profile-card {
+    margin: 20px auto 0;
+    padding: 20px 16px;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-info {
+    align-items: center;
+  }
+
+  .pinned-badges-row {
+    justify-content: center;
+  }
+
+  .profile-footer {
+    justify-content: center;
+  }
+
+  .infosUser {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 20px;
+    font-size: 24px;
+    padding: 0px !important;
+    font-family: 'Barlow', sans-serif;
+  }
+
+  .infosLevel {
+    inline-size: min-content;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center;
+    font-weight: bold;
+    width: 100%;
+  }
+
+  .BadgeArray {
+    overflow-x: scroll;
+    white-space: nowrap;
+    display: block !important;
+    padding-bottom: 0px !important;
+    padding-left: 15px;
+  }
+
+  .Badge {
+    display: inline-block !important;
+    margin-top: 15px;
+    width: 140px !important;
+    height: 140px !important;
+  }
+}

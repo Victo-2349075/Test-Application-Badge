@@ -1,0 +1,65 @@
+/**
+* CSS généré par inteligence artificielle.
+* Zacharie Nolet - 2026-03-16
+*/
+
+.admin-sidebar {
+  width: 250px;
+  height: 100vh;
+  background: white;
+  border-right: 1px solid #e6ebf1;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* titre principal */
+
+.admin-sidebar-title {
+  font-weight: 800;
+  font-size: 18px;
+  padding-left: 20px;
+  margin-bottom: 20px;
+  color: #1e2a3a;
+}
+
+/* section */
+
+.admin-sidebar-section {
+  margin-bottom: 20px;
+}
+
+.admin-sidebar-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #8a94a6;
+  padding-left: 20px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+/* lien */
+
+.admin-sidebar-link {
+  border-radius: 10px;
+  margin: 2px 10px;
+  transition: background 0.15s ease;
+}
+
+/* hover */
+
+.admin-sidebar-link:hover {
+  background: #f4f6f9;
+}
+
+/* lien actif */
+
+.admin-sidebar-link.active {
+  background: #eaf4ff;
+}
+
+/* icones */
+
+.admin-sidebar-icon {
+  color: #7a8699;
+}
