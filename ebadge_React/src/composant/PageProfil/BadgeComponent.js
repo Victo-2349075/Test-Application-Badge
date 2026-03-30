@@ -13,7 +13,7 @@ import { initParticleEffect, getBadgeStyle } from './EffetsBadge.js';
  * @param {Object} props - Les propriétés du composant
  * @param {Object} props.badge - Les données du badge à afficher
  */
-const BadgeComponent = ({ badge }) => {
+const BadgeComponent = ({ badge, showDetails }) => {
   // Initialize particle effect after component mounts
   useEffect(() => {
     const particleTimer = setTimeout(initParticleEffect, 100);
@@ -89,13 +89,15 @@ const BadgeComponent = ({ badge }) => {
         </div>
       </div>
       
-      <div className="hideDisplay">
-        <h3 className='textBadge'>{badge.title}</h3>
-        <p>Catégorie: {categoryName}</p>
-        <p>{badge.description}</p>
-        <p>Pourcentage d'obtention : {possession}%</p>
-        <p>{creator}</p>
-      </div>
+      {showDetails && (
+        <div className="hideDisplay">
+          <h3 className='textBadge'>{badge.title}</h3>
+          <p>Catégorie: {categoryName}</p>
+          <p>{badge.description}</p>
+          <p>Pourcentage d'obtention : {possession}%</p>
+          <p>{creator}</p>
+        </div>
+      )}
     </div>
   );
 };
@@ -111,7 +113,8 @@ BadgeComponent.propTypes = {
     category_name: PropTypes.string,
     creator_name: PropTypes.string,
     creator_last_name: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  showDetails: PropTypes.bool
 };
 
 // Valeurs par défaut pour le badge
@@ -122,7 +125,8 @@ BadgeComponent.defaultProps = {
     possession: 0,
     category_name: "Non catégorisé",
     category_color: "#838489"
-  }
+  },
+  showDetails: true
 };
 
 export default (BadgeComponent);

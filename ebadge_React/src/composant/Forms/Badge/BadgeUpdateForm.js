@@ -334,7 +334,7 @@ export default function BadgeUpdateForm({ handleClose, editBadge, selectedBadge,
                             <h2 className="badge-create-form-preview-title">Prévisualisation</h2>
                             <div className="badge-create-form-preview-content">
                                 <div className="badge-create-form-preview-badge">
-                                    <BadgeComponent badge={badge} />
+                                    <BadgeComponent badge={badge} showDetails={false} />
                                     <div className="badge-create-form-preview-badge-title">
                                         {badge.title || "Badge sans titre"}
                                     </div>

@@ -370,7 +370,7 @@ export default function BadgeCreateForm({ handleClose, addBadge, errorBadge }) {
                     <h2 className="badge-create-form-preview-title">Prévisualisation</h2>
                     <div className="badge-create-form-preview-content">
                         <div className="badge-create-form-preview-badge">
-                            <BadgeComponent badge={badge} />
+                            <BadgeComponent badge={badge} showDetails={false} />
                             {/*
                                 Centre le titre directement dans l'image de prévisualisation du badge.
                                 @author Philippe-Vu Beaulieu
