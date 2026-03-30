@@ -157,7 +157,7 @@ export default function BadgeCreateForm({ handleClose, addBadge, errorBadge }) {
                 }
             })
                 .then((response) => {
-                    addBadge(response.data);
+                    addBadge(response.data?.id);
                     setBadge(badgeDummy);
                     handleClose();
                 })
