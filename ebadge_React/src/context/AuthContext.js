@@ -7,38 +7,43 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const normalizeUser = (payload) => {
+        const currentUser = payload?.user ?? payload ?? {};
+        return {
+            ...currentUser,
+            username: currentUser.username ?? currentUser.name ?? '',
+            role: currentUser.role ?? currentUser.role_name ?? ''
+        };
+    };
+
     // Vérification au chargement de l'app
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        const username = localStorage.getItem('username');
-        const role = localStorage.getItem('role');
-
-        if (token && username && role) {
-            Api.get('/auth/current_user')
-                .then(() => {
-                    setUser({ username, role });
-                    setLoading(false);
-                })
-                .catch(() => {
-                    logout();
-                    setLoading(false);
-                });
-        } else {
+        const authHeader = Api.defaults.headers.common.Authorization;
+        if (!authHeader) {
             setLoading(false);
+            return;
         }
+
+        Api.get('/auth/current_user')
+            .then((response) => {
+                const normalizedUser = normalizeUser(response.data);
+                setUser(normalizedUser);
+            })
+            .catch(() => {
+                setUser(null);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }, []);
 
     const login = (token, username, role) => {
-        localStorage.setItem('token', token);
-        localStorage.setItem('username', username);
-        localStorage.setItem('role', role);
+        Api.defaults.headers.common.Authorization = `Bearer ${token}`;
         setUser({ username, role });
     };
 
     const logout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-        localStorage.removeItem('role');
+        delete Api.defaults.headers.common.Authorization;
         setUser(null);
 
         Api.post('/auth/logout').catch(() => {});

@@ -14,6 +14,7 @@ import SchoolIcon from "@mui/icons-material/School";
 
 import Role from "../../../policies/Role";
 import PoliciesHelper from "../../../policies/PoliciesHelper";
+import { AuthContext } from "../../../context/AuthContext";
 
 import "./AdminSidebar.css";
 
@@ -23,12 +24,11 @@ import "./AdminSidebar.css";
  * Zacharie Nolet - 2026-03-16
  */
 class AdminSidebar extends React.Component {
-  constructor(props) {
-    super(props);
+  static contextType = AuthContext;
 
-    const policiesHelper = new PoliciesHelper();
-
-    this.sections = [
+  getSections = (role) => {
+    const policiesHelper = new PoliciesHelper(role);
+    return [
       {
         title: "Utilisateurs",
         items: policiesHelper.getvisibleRoutes([
@@ -87,12 +87,14 @@ class AdminSidebar extends React.Component {
         ]),
       },
     ];
-  }
+  };
 
   render() {
+    const sections = this.getSections(this.context?.user?.role);
+
     return (
       <Box className="admin-sidebar">
-        {this.sections.map((section) => (
+        {sections.map((section) => (
           <div key={section.title} className="admin-sidebar-section">
             <div className="admin-sidebar-section-title">
               {section.title}

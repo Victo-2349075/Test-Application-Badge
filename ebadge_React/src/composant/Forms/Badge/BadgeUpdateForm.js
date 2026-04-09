@@ -140,11 +140,10 @@ export default function BadgeUpdateForm({ handleClose, editBadge, selectedBadge,
                 }
             }).then((response) => {
                 editBadge(response.data);
+                handleClose();
             }).catch((_) => {
                 errorBadge('Erreur lors de la modification du badge');
             });
-
-            handleClose();
         }
     };
 
@@ -184,7 +183,7 @@ export default function BadgeUpdateForm({ handleClose, editBadge, selectedBadge,
                     <h1 className="badge-create-form-title">Modifier un badge</h1>
 
                     <div className="badge-create-form-card">
-                        <form className='create-badge'>
+                        <form className='create-badge' onSubmit={handleSubmit}>
                             <TextField
                                 id="title"
                                 name="title"
@@ -316,7 +315,7 @@ export default function BadgeUpdateForm({ handleClose, editBadge, selectedBadge,
 
                             <div className="badge-create-form-button-submit">
                                 <Button
-                                    onClick={handleSubmit}
+                                    type="submit"
                                     variant="contained"
                                     className="badge-create-primary-action"
                                     // Désactive l'animation de clic (ripple) demandée sur le bouton MODIFIER.
@@ -325,7 +324,7 @@ export default function BadgeUpdateForm({ handleClose, editBadge, selectedBadge,
                                 >
                                     MODIFIER
                                 </Button>
-                                <Button variant="outlined" onClick={handleClose} className="badge-create-secondary-action">
+                                <Button type="button" variant="outlined" onClick={handleClose} className="badge-create-secondary-action">
                                     ANNULER
                                 </Button>
                             </div>
@@ -334,7 +333,12 @@ export default function BadgeUpdateForm({ handleClose, editBadge, selectedBadge,
                         <div className="badge-create-form-preview">
                             <h2 className="badge-create-form-preview-title">Prévisualisation</h2>
                             <div className="badge-create-form-preview-content">
-                                <BadgeComponent badge={badge} />
+                                <div className="badge-create-form-preview-badge">
+                                    <BadgeComponent badge={badge} showDetails={false} />
+                                    <div className="badge-create-form-preview-badge-title">
+                                        {badge.title || "Badge sans titre"}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
