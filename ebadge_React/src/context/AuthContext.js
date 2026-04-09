@@ -18,6 +18,12 @@ export const AuthProvider = ({ children }) => {
 
     // Vérification au chargement de l'app
     useEffect(() => {
+        const authHeader = Api.defaults.headers.common.Authorization;
+        if (!authHeader) {
+            setLoading(false);
+            return;
+        }
+
         Api.get('/auth/current_user')
             .then((response) => {
                 const normalizedUser = normalizeUser(response.data);
