@@ -2,10 +2,15 @@ import React from 'react';
 import PoliciesHelper from './PoliciesHelper';
 import { Outlet } from 'react-router-dom';
 import NotAuthorized from '../pages/Errors/NotAuthorized';
+import { useAuth } from '../hooks/useAuth';
 
 const ProtectedRoute = (minimumRole) => {
+    const { user, loading } = useAuth();
+    const policiesHelper = new PoliciesHelper(user?.role);
 
-    const policiesHelper = new PoliciesHelper();
+    if (loading) {
+        return null;
+    }
 
     // le mot-clé return était manquantla fonction retournait toujours undefined et les routes admin
     

@@ -60,13 +60,8 @@ class BadgesTab extends React.Component {
     }
 
     editBadge(badge) {
-        const badges = this.state.badges.map(b => {
-            if (b.id === badge.id) {
-                return badge;
-            }
-            return b;
-        });
-        this.setState({ badges, successMessage: 'Le badge a été modifié avec succès !', showSuccessMessage: true });
+        this.getBadges();
+        this.setState({ successMessage: 'Le badge a été modifié avec succès !', showSuccessMessage: true });
     }
 
     deleteBadge(badge) {
