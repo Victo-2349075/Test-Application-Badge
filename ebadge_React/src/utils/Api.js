@@ -45,8 +45,6 @@ axiosInstance.interceptors.response.use(
     // Si token invalide/expiré
     if (statusCode === 401 && message === "Unauthenticated.") {
       sessionStorage.removeItem("token");
-      sessionStorage.removeItem("username");
-      sessionStorage.removeItem("role");
       delete axiosInstance.defaults.headers.common.Authorization;
     }
 
