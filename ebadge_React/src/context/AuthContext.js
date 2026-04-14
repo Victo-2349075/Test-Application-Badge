@@ -18,11 +18,13 @@ export const AuthProvider = ({ children }) => {
 
     // Vérification au chargement de l'app
     useEffect(() => {
-        const authHeader = Api.defaults.headers.common.Authorization;
-        if (!authHeader) {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
             setLoading(false);
             return;
         }
+
+        Api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
         Api.get('/auth/current_user')
             .then((response) => {
@@ -38,11 +40,17 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (token, username, role) => {
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('username', username ?? '');
+        sessionStorage.setItem('role', role ?? '');
         Api.defaults.headers.common.Authorization = `Bearer ${token}`;
         setUser({ username, role });
     };
 
     const logout = () => {
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('role');
         delete Api.defaults.headers.common.Authorization;
         setUser(null);
 
