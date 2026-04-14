@@ -22,13 +22,9 @@ const axiosInstance = axios.create({
   },
 });
 
-// Avant chaque requête, ajoute le token si présent
+// Avant chaque requête
 axiosInstance.interceptors.request.use(
   function (config) {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
     return config;
   },
   function (error) {
@@ -48,13 +44,10 @@ axiosInstance.interceptors.response.use(
 
     // Si token invalide/expiré
     if (statusCode === 401 && message === "Unauthenticated.") {
-      // Retirer les données locales mais ne pas recharger 
-      localStorage.removeItem("token");
-      localStorage.removeItem("username");
-      localStorage.removeItem("role");
-
-      // Laisse le composant Login / useEffect gérer la redirection
-  
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("username");
+      sessionStorage.removeItem("role");
+      delete axiosInstance.defaults.headers.common.Authorization;
     }
 
     error.userFriendlyMessage = getUserFriendlyErrorMessage(error);

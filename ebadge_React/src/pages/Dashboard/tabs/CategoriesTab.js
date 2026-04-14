@@ -6,6 +6,7 @@ import { Button, Dialog, Slide, Snackbar, Alert, Grid } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import './../Dashboard.css';
 import Loading from '../../../composant/Loading/LoadingComponent';
+import { useAuth } from '../../../hooks/useAuth';
 
 // Transition pour l'affichage en glissement du Dialog (modale) de création d'une catégorie
 const Transition = React.forwardRef((props, ref) => (
@@ -19,6 +20,7 @@ const Transition = React.forwardRef((props, ref) => (
  * Inspiré du code de OpenAi - ChatGPT - [Modèle massif de langage] - chatpgt.com - [Consulté le 27 mars 2025]
  */
 const CategoriesTab = () => {
+    const { user } = useAuth();
 
     // État pour gérer l'ouverture du formulaire de création de catégorie
     const [categoryFormOpen, setCategoryFormOpen] = useState(false);
@@ -80,8 +82,7 @@ const CategoriesTab = () => {
         setSuccessMessage('La catégorie a été supprimée avec succès !');
     };
 
-    // Récupération du rôle de l'utilisateur depuis le localStorage
-    const role = localStorage.getItem('role');
+    const role = user?.role;
 
     return (
         <Grid item className='bordered'>
@@ -98,6 +99,7 @@ const CategoriesTab = () => {
             </div>
             <CategoryGrid 
                 rows={categories} 
+                role={role}
                 refresh={getCategories} 
                 deleteCategory={deleteCategory} 
                 editCategory={editCategory} 
