@@ -1,11 +1,28 @@
-.category-create-form {
+.category-create-layout {
     width: 100%;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    padding: 0;
+    box-sizing: border-box;
     background: #efefef;
-    padding: 36px 20px 56px;
+}
+
+.category-create-existing-topbar {
+    border: 1px solid #1f1f1f;
+}
+
+.category-create-main-content {
+    border: 1px solid #1f1f1f;
+    border-top: 0;
+    display: flex;
+    min-height: calc(100vh - 64px);
+}
+
+.category-create-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 36px 28px 48px;
     box-sizing: border-box;
 }
 
@@ -17,27 +34,27 @@
 }
 
 .category-create-form-title {
-    margin: 0 0 28px;
-    font-size: 2.4rem;
+    margin: 0 0 36px;
+    font-size: 2.45rem;
     font-weight: 700;
     text-align: center;
 }
 
 .category-create-form-card {
-    width: 100%;
-    min-height: 620px;
+    width: min(1640px, 100%);
+    min-height: 760px;
     border: 2px solid #1f1f1f;
     border-radius: 64px;
     background-color: #f7f7f7;
-    padding: 72px 70px;
+    padding: 70px 82px;
     display: flex;
-    gap: 70px;
+    gap: 64px;
     justify-content: space-between;
     box-sizing: border-box;
 }
 
 form.create-category {
-    width: 60%;
+    width: 64%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -91,7 +108,7 @@ form.create-category {
 }
 
 .category-create-preview {
-    width: 40%;
+    width: 36%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -114,6 +131,15 @@ form.create-category {
 }
 
 @media (max-width: 900px) {
+    .category-create-main-content {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .admin-sidebar {
+        display: none;
+    }
+
     .category-create-form-card {
         flex-direction: column;
         border-radius: 32px;
