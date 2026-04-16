@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Button, FormControl, TextField, Box } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, TextField } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Link } from 'react-router-dom';
 import Api from '../utils/Api';
 import './CategoryCreateForm.css';
-import { MuiColorInput } from 'mui-color-input'
+import AdminSidebar from './layout/AdminSidebar/AdminSidebar';
 
 /**
  * Composant du formulaire de création de catégorie
@@ -35,8 +37,8 @@ export default function CategoryCreateForm({ addCategory, errorCategory, handleC
      * Fonction qui change la couleur de la catégorie
      * @param {*} color 
      */
-    const handleColorChange = (color) => {
-        setCategoryColor(color);
+    const handleColorChange = (event) => {
+        setCategoryColor(event.target.value);
     };
 
     /**
@@ -79,52 +81,82 @@ export default function CategoryCreateForm({ addCategory, errorCategory, handleC
     };
 
     return (
-        <div className="category-create-form">
-            <div className="category-create-form-container">
-                <div className="category-create-form-background">
-                <div className="category-create-form-content">
-            <h1>Créer une catégorie</h1>
-            <FormControl className="create-category" onSubmit={handleSubmit}>
-                <TextField
-                    name="name"
-                    label="Nom"
-                    variant="outlined"
-                    value={categoryName}
-                    onChange={handleCategoryChange}
-                    onBlur={validateName}
-                    error={Boolean(nameError)}
-                    helperText={nameError}
-                    inputProps={{ maxLength: 45 }}
-                    required
-                    sx={{ width: '80%', marginTop: '20px' }}
-                />
-                <Box sx={{ marginTop: '20px', width: '80%' }}>
-                    <MuiColorInput
-                        format="hex"
-                        value={categoryColor}
-                        onChange={handleColorChange}
-                        fullWidth
-                    />
-                </Box>
-                
-                <div className="category-create-form-button-submit">
-                    <Button type="submit" variant="contained" onClick={handleSubmit} sx={{
-                        width: '100%',
-                        marginTop: '20px',
-                        marginRight: '20px',
-                    }}>Créer</Button>
-                    <Button variant="outlined" onClick={handleClose} sx={{
-                        width: '100%',
-                        marginTop: '20px',
-                    }}>Annuler</Button>
+        <div className="category-create-layout">
+            <AppBar position="static" className="category-create-existing-topbar">
+                <Toolbar>
+                    <Button
+                        variant="outlined"
+                        color="secondary"
+                        component={Link}
+                        to="/"
+                        sx={{ mr: 3 }}
+                        startIcon={<ArrowBackIcon />}
+                    >
+                        Retour au site
+                    </Button>
+
+                    <Typography variant="h6" noWrap component="div">
+                        E-Badge | Administration
+                    </Typography>
+
+                    <Button variant="contained" color="secondary" sx={{ ml: 'auto' }}>
+                        Assigner des badges
+                    </Button>
+                </Toolbar>
+            </AppBar>
+
+            <div className="category-create-main-content">
+                <AdminSidebar />
+
+                <div className="category-create-form">
+                    <h1 className="category-create-form-title">Création d'une catégorie</h1>
+                    <div className="category-create-form-card">
+                        <form className="create-category" onSubmit={handleSubmit}>
+                            <TextField
+                                name="name"
+                                placeholder="Nom *"
+                                variant="outlined"
+                                value={categoryName}
+                                onChange={handleCategoryChange}
+                                onBlur={validateName}
+                                error={Boolean(nameError)}
+                                helperText={nameError}
+                                inputProps={{ maxLength: 45 }}
+                                required
+                                fullWidth
+                            />
+
+                            <label className="category-create-color-picker">
+                                <span>Choix de couleur</span>
+                                <input
+                                    type="color"
+                                    value={categoryColor}
+                                    onChange={handleColorChange}
+                                    aria-label="Choix de couleur"
+                                />
+                            </label>
+
+                            <div className="category-create-form-button-submit">
+                                <Button type="submit" variant="contained" className="category-create-primary-action">
+                                    CRÉER
+                                </Button>
+                                <Button type="button" variant="outlined" onClick={handleClose} className="category-create-secondary-action">
+                                    ANNULER
+                                </Button>
+                            </div>
+                        </form>
+
+                        <div className="category-create-preview">
+                            <h2 className="category-create-preview-title">Prévisualisation</h2>
+                            <div
+                                className="category-create-preview-circle"
+                                style={{ backgroundColor: categoryColor }}
+                                aria-label="Aperçu catégorie"
+                            />
+                        </div>
+                    </div>
                 </div>
-                
-            </FormControl>
-            </div>
-            
-            </div>
             </div>
         </div>
     );
 };
-

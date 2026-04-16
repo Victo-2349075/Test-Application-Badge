@@ -3,12 +3,11 @@ import { Button } from "@mui/material";
 import Role from "../../policies/Role";
 import PoliciesHelper from "../../policies/PoliciesHelper";
 import BadgeAssignationPopup from "./Popups/BadgeAssignationPopup/BadgeAssignationPopup";
+import { AuthContext } from "../../context/AuthContext";
 
 class AssignBadgeButton extends React.Component {
   constructor(props) {
     super(props);
-
-    this.policiesHelper = new PoliciesHelper();
 
     this.state = {
       isBadgeAssignationOpen: false,
@@ -16,11 +15,15 @@ class AssignBadgeButton extends React.Component {
   }
 
   canAssignBadges = () => {
-    if (this.policiesHelper.hasRole(Role.Teacher)) return true;
-    if (this.policiesHelper.hasRole(Role.Admin)) return true;
-    if (this.policiesHelper.hasRole(Role.AdminContact)) return true;
+    const role = this.context?.user?.role;
+    const policiesHelper = new PoliciesHelper(role);
+    if (policiesHelper.hasRole(Role.Teacher)) return true;
+    if (policiesHelper.hasRole(Role.Admin)) return true;
+    if (policiesHelper.hasRole(Role.AdminContact)) return true;
     return false;
   };
+
+  static contextType = AuthContext;
 
   render() {
     const {

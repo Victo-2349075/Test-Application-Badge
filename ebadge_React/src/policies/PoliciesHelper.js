@@ -1,8 +1,8 @@
 import Role from './Role';
 
 export default class PoliciesHelper {
-    constructor() {
-        this.currentRoles = this.getCurrentRole();
+    constructor(role = Role.Guest) {
+        this.currentRoles = this.getCurrentRole(role);
     }
 
     /**
@@ -33,20 +33,15 @@ export default class PoliciesHelper {
      * 
      * @returns {Array} list of roles
      */
-    getCurrentRole() {
-    let role = localStorage.getItem('role');
+    getCurrentRole(role) {
+    let normalizedRole = role ?? Role.Guest;
 
-    if (role === null) {
-        // On ne touche plus au token ici, juste au role
-        return Role.Guest;
-    }
-
-    if (!this.isRoleExist(role)) {
+    if (!this.isRoleExist(normalizedRole)) {
         console.error('Role not found');
-        role = Role.Guest;
+        normalizedRole = Role.Guest;
     }
 
-    switch (role) {
+    switch (normalizedRole) {
         case Role.Admin:
         case Role.AdminContact:
             return Object.values(Role);
@@ -55,7 +50,7 @@ export default class PoliciesHelper {
         case Role.User:
             return [Role.User, Role.Guest];
         default:
-            return [role];
+            return [normalizedRole];
     }
 }
 
