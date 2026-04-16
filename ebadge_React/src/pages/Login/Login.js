@@ -21,7 +21,7 @@ export default function Login() {
     // Redirection si déjà connecté
     useEffect(() => {
     if (!loading && user) {
-        const policiesHelper = new PoliciesHelper();
+        const policiesHelper = new PoliciesHelper(user?.role);
         navigate(policiesHelper.getDefaultRoute(), { replace: true });
     }
     }, [user, loading, navigate]);
@@ -66,7 +66,7 @@ export default function Login() {
                 response.data.role
             );
 
-                const policiesHelper = new PoliciesHelper();
+                const policiesHelper = new PoliciesHelper(response.data.role);
                 navigate(policiesHelper.getDefaultRoute(), { replace: true });
             })
             .catch((error) => {

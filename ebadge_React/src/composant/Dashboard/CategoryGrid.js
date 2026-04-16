@@ -12,10 +12,6 @@ const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />
 ));
 
-// Récupération du rôle de l'utilisateur depuis le localStorage
-const role = localStorage.getItem('role');
-
-
 /**
  * Composant qui affiche les catégories sous forme de tableau
  * 
@@ -23,7 +19,7 @@ const role = localStorage.getItem('role');
  * D'après le code du projet E-Badge
  * Inspiré du code de OpenAi - ChatGPT - [Modèle massif de langage] - chatpgt.com - [Consulté le 27 mars 2025]
  */
-const CategoryGrid = ({ rows = [], deleteCategory, editCategory, errorCategory }) => {
+const CategoryGrid = ({ rows = [], role, deleteCategory, editCategory, errorCategory }) => {
 
     // État pour gérer la pagination du tableau
     const [pageSize, setPageSize] = useState(5);
