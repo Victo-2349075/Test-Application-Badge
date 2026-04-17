@@ -3,14 +3,10 @@ import Api from '../../../utils/Api';
 import BadgeGrid from '../../../composant/Dashboard/BadgeGrid';
 import Item from '@mui/material/Grid';
 import BadgeCreateForm from '../../../composant/Forms/Badge/BadgeCreateForm';
-import { Button, Dialog, Slide, Snackbar, Alert } from '@mui/material';
+import { Button, Dialog, Snackbar, Alert } from '@mui/material';
 import './../Dashboard.css';
 import { Add } from '@mui/icons-material';
 import Loading from '../../../composant/Loading/LoadingComponent';
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
 
 class BadgesTab extends React.Component {
     constructor(props) {
@@ -58,18 +54,14 @@ class BadgesTab extends React.Component {
         this.setState({ closeBadgeForm: !this.state.closeBadgeForm });
     }
 
-    addBadge(badge) {
-        this.setState({ badges: [badge, ...this.state.badges], successMessage: 'Le badge a été ajouté avec succès !', showSuccessMessage: true });
+    addBadge() {
+        this.getBadges();
+        this.setState({ successMessage: 'Le badge a été ajouté avec succès !', showSuccessMessage: true });
     }
 
     editBadge(badge) {
-        const badges = this.state.badges.map(b => {
-            if (b.id === badge.id) {
-                return badge;
-            }
-            return b;
-        });
-        this.setState({ badges, successMessage: 'Le badge a été modifié avec succès !', showSuccessMessage: true });
+        this.getBadges();
+        this.setState({ successMessage: 'Le badge a été modifié avec succès !', showSuccessMessage: true });
     }
 
     deleteBadge(badge) {

@@ -19,8 +19,7 @@ import Role from "../../policies/Role";
 import PoliciesHelper from "../../policies/PoliciesHelper";
 import { Link } from "react-router-dom";
 import AssignBadgeButton from "../Dashboard/AssignBadgeButton";
-
-const isConnected = !!localStorage.getItem("token");
+import { AuthContext } from "../../context/AuthContext";
 
 /**
  * Composant Navbar
@@ -29,12 +28,26 @@ class Navbar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.PoliciesHelper = new PoliciesHelper();
-
     this.state = {
       anchorElNav: null,
       anchorElUser: null,
-      pages: this.PoliciesHelper.getvisibleRoutes([
+      pages: [],
+      role: null,
+      username: "",
+      userSettings: [
+        { name: "Mon profil", href: "/" },
+        { name: "Paramètres", href: "/modify-profile" },
+        { name: "Se déconnecter", href: "/auth/logout" },
+      ],
+      initials: "ND",
+    };
+  }
+
+  static contextType = AuthContext;
+
+  getPagesForRole = (role) => {
+    const helper = new PoliciesHelper(role);
+    return helper.getvisibleRoutes([
         { name: "Acceuil", href: "/", minimumRole: Role.User },
         { name: "Mon profil", href: "/profile", minimumRole: Role.User },
         { name: "Classement", href: "/leaderboard", minimumRole: Role.User },
@@ -49,21 +62,29 @@ class Navbar extends React.Component {
           href: "/contactez-nous",
           minimumRole: Role.User,
         },
-      ]),
-      initials: "ND",
-      userSettings: [
-        { name: "Mon profil", href: "/" },
-        { name: "Paramètres", href: "/modify-profile" },
-        { name: "Se déconnecter", href: "/auth/logout" },
-      ],
-    };
-  }
+      ]);
+  };
 
   componentDidMount() {
-    this.setState({
-      initials: this.getInitials(localStorage.getItem("username") ?? "na"),
-    });
+    const { user } = this.context;
+    this.refreshUserData(user);
   }
+
+  componentDidUpdate() {
+    const { user } = this.context;
+    if (user?.role !== this.state.role || user?.username !== this.state.username) {
+      this.refreshUserData(user);
+    }
+  }
+
+  refreshUserData = (user) => {
+    this.setState({
+      role: user?.role ?? null,
+      username: user?.username ?? "",
+      pages: this.getPagesForRole(user?.role),
+      initials: this.getInitials(user?.username ?? "na"),
+    });
+  };
 
   handleOpenNavMenu = (event) => {
     this.setState({ anchorElNav: event.currentTarget });
@@ -90,6 +111,9 @@ class Navbar extends React.Component {
   };
 
   render() {
+    const { user } = this.context;
+    const isConnected = Boolean(user);
+
     return (
       <AppBar
         position="fixed"
