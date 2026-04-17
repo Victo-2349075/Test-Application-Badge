@@ -1,73 +1,168 @@
+.category-create-layout {
+    width: 100%;
+    min-height: 100vh;
+    padding: 0;
+    box-sizing: border-box;
+    background: #efefef;
+}
+
+.category-create-existing-topbar {
+    border: 1px solid #1f1f1f;
+}
+
+.category-create-main-content {
+    border: 1px solid #1f1f1f;
+    border-top: 0;
+    display: flex;
+    min-height: calc(100vh - 64px);
+}
 
 .category-create-form {
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    padding: 36px 28px 48px;
+    box-sizing: border-box;
 }
 
 .category-create-form-container {
+    width: min(1200px, 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
-    height: 100%;
-}  
-
-.category-create-form-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 50%;
-    height: 100%;
-    padding-top: 100px;
 }
 
-.category-create-form-preview {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    width: 50%;
-    height: 100%;
-    padding-top: 120px;
+.category-create-form-title {
+    margin: 0 0 36px;
+    font-size: 2.45rem;
+    font-weight: 700;
+    text-align: center;
 }
 
-.category-create-form-background {
+.category-create-form-card {
+    width: min(1640px, 100%);
+    min-height: 760px;
+    border: 2px solid #1f1f1f;
+    border-radius: 64px;
+    background-color: #f7f7f7;
+    padding: 70px 82px;
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    width: 100%;
-    height: 100%;
-}
-
-.create-category {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-
-.category-create-form-button-field {
-    display: flex;
-    width: 80%;
+    gap: 64px;
     justify-content: space-between;
-    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+form.create-category {
+    width: 64%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 26px;
+}
+
+.category-create-color-picker {
+    width: 100%;
+    min-height: 66px;
+    border: 1px solid #1f1f1f;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    font-size: 1rem;
+    cursor: pointer;
+    background: #fff;
+}
+
+.category-create-color-picker input[type="color"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
 }
 
 .category-create-form-button-submit {
     display: flex;
-    width: 80%;
-    justify-content: space-between;
+    gap: 24px;
+    margin-top: 16px;
 }
 
-.category-create-form-picker {
+.category-create-primary-action,
+.category-create-secondary-action {
+    flex: 1;
+    min-height: 58px;
+    border-radius: 8px !important;
+    font-size: 1.05rem !important;
+}
+
+.category-create-primary-action {
+    background-color: #1f1f1f !important;
+}
+
+.category-create-secondary-action {
+    color: #1f1f1f !important;
+    border: 1px solid #1f1f1f !important;
+}
+
+.category-create-preview {
+    width: 36%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+.category-create-preview-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+    transform: translateX(16px);
+}
+
+.category-create-preview-content {
+    width: 380px;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-create-preview-badge {
     width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-create-preview-badge .Badge {
+    transform: scale(1.42);
+}
+
+@media (max-width: 900px) {
+    .category-create-main-content {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .admin-sidebar {
+        display: none;
+    }
+
+    .category-create-form-card {
+        flex-direction: column;
+        border-radius: 32px;
+        padding: 32px 22px;
+        gap: 30px;
+        min-height: auto;
+    }
+
+    form.create-category,
+    .category-create-preview {
+        width: 100%;
+    }
 }
