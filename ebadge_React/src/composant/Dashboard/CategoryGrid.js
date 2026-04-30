@@ -7,125 +7,115 @@ import CategoryUpdateForm from '../CategoryUpdateForm';
 import CategoryBadgesPopup from './Popups/CategoryBadgesPopup/CategoryBadgesPopup';
 import Role from '../../policies/Role';
 
-// Transition pour l'affichage en glissement du Dialog (modale) d'édition
 const Transition = React.forwardRef((props, ref) => (
     <Slide direction="up" ref={ref} {...props} />
 ));
 
-/**
- * Composant qui affiche les catégories sous forme de tableau
- * 
- * @author Alexandre del Fabbro
- * D'après le code du projet E-Badge
- * Inspiré du code de OpenAi - ChatGPT - [Modèle massif de langage] - chatpgt.com - [Consulté le 27 mars 2025]
- */
 const CategoryGrid = ({ rows = [], role, deleteCategory, editCategory, errorCategory }) => {
-
-    // État pour gérer la pagination du tableau
     const [pageSize, setPageSize] = useState(5);
-
-    // États pour gérer l'ouverture des différentes modales (popups)
     const [openAssignDialog, setOpenAssignDialog] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
-
-    // Stocke la catégorie actuellement sélectionnée (pour édition ou suppression)
     const [selectedCategory, setSelectedCategory] = useState(null);
 
-    // Définition des colonnes du tableau
     const columns = [
-        // Colonne pour le nom de la catégorie
-        { 
-            field: 'name',
-            headerName: 'Nom',
+        {
+            field: 'color',
+            headerName: 'Couleur',
+            minWidth: 150,
             flex: 1,
+            sortable: false,
+            align: 'center',
             headerAlign: 'center',
             renderCell: (params) => (
                 <div
                     style={{
-                        borderLeft: `15px solid ${params.row.color || 'transparent'}`,
-                        width: '100%',
-                        textAlign: 'left',
-                        lineHeight: '100px',
-                        paddingLeft: '10px',
+                        width: 70,
+                        height: 70,
+                        borderRadius: '50%',
+                        backgroundColor: params.row.color || '#C0C0C0',
+                        boxShadow: `0 0 8px 10px ${params.row.color || '#C0C0C0'}`,
                     }}
-                >
-                    {params.row.name}
-                </div>
-            )
+                />
+            ),
         },
-
-        // Colonne pour l'action d'assignation de badge
+        {
+            field: 'name',
+            headerName: 'Nom',
+            flex: 2,
+            align: 'center',
+            headerAlign: 'center',
+        },
         {
             field: 'assignAction',
             minWidth: 150,
             headerName: '',
-            flex: 0.5,
+            flex: 1,
             sortable: false,
             align: 'center',
-            renderCell: (params) => {
-                // Fonction appelée lors du clic sur le bouton "Assigner badge"
-                const onClick = (e) => {
-                    e.stopPropagation(); // Empêche la sélection de la ligne
-                    setSelectedCategory(params.row); // Définit la catégorie sélectionnée
-                    setOpenAssignDialog(true); // Ouvre la popup d'assignation
-                };
-
-                return <Button variant="outlined" onClick={onClick}>Assigner badge</Button>;
-            },
+            headerAlign: 'center',
+            renderCell: (params) => (
+                <Button
+                    variant="outlined"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedCategory(params.row);
+                        setOpenAssignDialog(true);
+                    }}
+                >
+                    Assigner badge
+                </Button>
+            ),
         },
-
-        // Colonnes supplémentaires visibles uniquement pour les administrateurs
-        ...([Role.Admin, Role.AdminContact].includes(role) ? [
-            // Colonne pour l'action de modification
-            {
-                field: 'editAction',
-                minWidth: 150,
-                headerName: '',
-                flex: 0.5,
-                align: 'center',
-                headerAlign: 'center',
-                sortable: false,
-                renderCell: (params) => (
-                    <Button
-                        variant="outlined"
-                        onClick={(e) => {
-                            e.stopPropagation(); // Empêche la sélection de la ligne
-                            setSelectedCategory(params.row); // Définit la catégorie sélectionnée
-                            setOpenEditDialog(true); // Ouvre la popup d'édition
-                        }}
-                        startIcon={<Edit />}
-                    >
-                        Modifier
-                    </Button>
-                )
-            },
-
-            // Colonne pour l'action de suppression
-            {
-                field: 'deleteAction',
-                minWidth: 150,
-                headerName: '',
-                flex: 0.5,
-                align: 'center',
-                headerAlign: 'center',
-                sortable: false,
-                renderCell: (params) => (
-                    <Button
-                        variant="outlined"
-                        color='error'
-                        onClick={(e) => {
-                            e.stopPropagation(); // Empêche la sélection de la ligne
-                            setSelectedCategory(params.row); // Définit la catégorie sélectionnée
-                            setOpenDeleteDialog(true); // Ouvre la popup de suppression
-                        }}
-                        startIcon={<Delete />}
-                    >
-                        Supprimer
-                    </Button>
-                )
-            }
-        ] : [])
+        ...([Role.Admin, Role.AdminContact].includes(role)
+            ? [
+                {
+                    field: 'editAction',
+                    minWidth: 150,
+                    headerName: '',
+                    flex: 1,
+                    align: 'center',
+                    headerAlign: 'center',
+                    sortable: false,
+                    renderCell: (params) => (
+                        <Button
+                            variant="outlined"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedCategory(params.row);
+                                setOpenEditDialog(true);
+                            }}
+                            startIcon={<Edit />}
+                        >
+                            Modifier
+                        </Button>
+                    ),
+                },
+                {
+                    field: 'deleteAction',
+                    minWidth: 150,
+                    headerName: '',
+                    flex: 1,
+                    align: 'center',
+                    headerAlign: 'center',
+                    sortable: false,
+                    renderCell: (params) => (
+                        <Button
+                            variant="outlined"
+                            color="error"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedCategory(params.row);
+                                setOpenDeleteDialog(true);
+                            }}
+                            startIcon={<Delete />}
+                        >
+                            Supprimer
+                        </Button>
+                    ),
+                },
+            ]
+            : []),
     ];
 
     return (
@@ -164,10 +154,10 @@ const CategoryGrid = ({ rows = [], role, deleteCategory, editCategory, errorCate
             {selectedCategory && (
                 <CategoryBadgesPopup
                     isOpen={openAssignDialog}
-                    handleClose={() => setOpenAssignDialog(false)} 
+                    handleClose={() => setOpenAssignDialog(false)}
                     selectedCategory={selectedCategory}
-                    
-                />)}
+                />
+            )}
         </div>
     );
 };
