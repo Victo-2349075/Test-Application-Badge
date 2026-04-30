@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Api from '../utils/Api';
 import './CategoryCreateForm.css';
 import AdminSidebar from './layout/AdminSidebar/AdminSidebar';
+import BadgeComponent from './PageProfil/BadgeComponent';
 
 /**
  * Composant du formulaire de création de catégorie
@@ -24,6 +25,15 @@ export default function CategoryCreateForm({ addCategory, errorCategory, handleC
 
     // État pour gérer la couleur de la catégorie
     const [categoryColor, setCategoryColor] = useState('#FFFFFF');
+
+    const categoryPreviewBadge = {
+        title: categoryName || 'Nouvelle catégorie',
+        description: '',
+        category_color: categoryColor,
+        imagePath: null,
+        creator_name: '',
+        creator_last_name: ''
+    };
 
     /**
      * Fonction qui change la valeur du champ quand on tape dedans
@@ -148,11 +158,11 @@ export default function CategoryCreateForm({ addCategory, errorCategory, handleC
 
                         <div className="category-create-preview">
                             <h2 className="category-create-preview-title">Prévisualisation</h2>
-                            <div
-                                className="category-create-preview-circle"
-                                style={{ backgroundColor: categoryColor }}
-                                aria-label="Aperçu catégorie"
-                            />
+                            <div className="category-create-preview-content">
+                                <div className="category-create-preview-badge">
+                                    <BadgeComponent badge={categoryPreviewBadge} showDetails={false} />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
